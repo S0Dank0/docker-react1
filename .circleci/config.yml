@@ -1,24 +1,24 @@
 version: 2.1
+executors:
+  default:
+    docker:
+      - image: circleci/python:3.8
+
 jobs:
   build:
     docker:
-      - image: circleci/node:14  # Използвайте подходящ образ на Docker, според изискванията на вашия проект
-
+      - image: docker:stable
     steps:
-      - checkout  # Изтегляне на кода от репозиторията
-
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.8
       - run:
-          name: Install Dependencies
-          command: npm install  # Инсталиране на зависимостите
-
-      - run:
-          name: Run Tests
-          command: npm run test  # Изпълнение на тестовете
-
-      # Други стъпки и команди, свързани с вашия CI/CD процес
+          name: Build Docker image
+          command: |
+            docker build -t danko/docker-react -f Dockerfile.dev .
 
 workflows:
   version: 2
-  build_and_test:
+  build-and-test:
     jobs:
       - build
