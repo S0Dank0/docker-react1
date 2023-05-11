@@ -13,7 +13,7 @@ jobs:
 
       - run:
           name: Run Tests
-          command: docker run danko/docker-react npm run test -- --coverage
+          command: docker run -e CI=true danko/docker-react npm run test
 
       # Other steps and commands related to your CI/CD process
 
