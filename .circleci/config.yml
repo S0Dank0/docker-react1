@@ -1,0 +1,24 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/node:14  # Използвайте подходящ образ на Docker, според изискванията на вашия проект
+
+    steps:
+      - checkout  # Изтегляне на кода от репозиторията
+
+      - run:
+          name: Install Dependencies
+          command: npm install  # Инсталиране на зависимостите
+
+      - run:
+          name: Run Tests
+          command: npm run test  # Изпълнение на тестовете
+
+      # Други стъпки и команди, свързани с вашия CI/CD процес
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
