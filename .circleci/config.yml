@@ -13,7 +13,7 @@ jobs:
 
       - run:
           name: Build Docker Image
-          command: sudo docker build -t danko/docker-react -f Docker.dev .
+          command: sudo docker build -t danko/docker-react -f Dockerfile.dev .
 
       - run:
           name: Run Tests
