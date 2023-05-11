@@ -13,11 +13,11 @@ jobs:
 
       - run:
           name: Build Docker Image
-          command: sudo docker build -t danko/docker-react -f Dockerfile.dev .
+          command: docker build -t danko/docker-react -f Dockerfile.dev .
 
       - run:
           name: Run Tests
-          command: sudo docker run -e CI=true danko/docker-react npm run test
+          command: docker run -e CI=true danko/docker-react npm run test
 
       # Other steps and commands related to your CI/CD process
 
