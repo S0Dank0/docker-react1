@@ -2,11 +2,15 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: node:14.17.0
+      - image: circleci/node:14.17-browsers
     steps:
       - checkout
       - setup_remote_docker:
           version: 20.10.7
+      - run:
+          name: Install Docker
+          command: |
+            curl -fsSL https://get.docker.com | sudo sh
       - run:
           name: Build Docker image
           command: |
