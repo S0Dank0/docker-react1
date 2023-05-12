@@ -1,10 +1,1 @@
-sudo: required  # Granting elevated privileges to the CI environment
 
-services:
-  - docker  # Specifying that Docker service is required
-
-before_install:
-  - docker build -t danko/docker-react -f Docker.dev .  # Building a Docker image with the tag "danko/docker-react" using the Dockerfile "Docker.dev"
-
-script:
-  - docker run -e CI=true danko/docker-react npm run test  # Running a Docker container with the environment variable CI=true and executing the "npm run test" command within the container
