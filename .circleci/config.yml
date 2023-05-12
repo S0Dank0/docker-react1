@@ -15,3 +15,16 @@ jobs:
           name: Run Tests
           command: |
             docker run -e CI=true danko/docker-react npm run test
+
+       - run:
+          name: Deploy to Elastic Beanstalk
+          command: |
+            # Команди за инсталиране на AWS CLI (ако не е инсталиран предварително)
+
+            # Настройка на AWS credentials (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+
+            # Команда за качване на приложението в Elastic Beanstalk
+            aws elasticbeanstalk create-application-version --application-name <име_на_приложението> --version-label <етикет_на_версията> --source-bundle S3Bucket=<S3_име_на_бъкета>,S3Key=<S3_ключ>
+
+            # Команда за актуализиране на средата на Elastic Beanstalk с новата версия
+            aws elasticbeanstalk update-environment --environment-name <име_на_средата> --version-label <етикет_на_версията>
