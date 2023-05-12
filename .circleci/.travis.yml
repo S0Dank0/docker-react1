@@ -1,11 +1,28 @@
-sudo: required
-language: generic
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/node:14
 
-services:
-  - docker
+    steps:
+      - checkout
 
-before_install:
-  - docker build -t stephengrider/docker-react -f Dockerfile.dev .
+      - run:
+          name: Install Dependencies
+          command: npm install
 
-script:
-  - docker run -e CI=true stephengrider/docker-react npm run test
+      - run:
+          name: Build Docker Image
+          command: docker build -t danko/docker-react -f Dockerfile.dev .
+
+      - run:
+          name: Run Tests
+          command: docker run -e CI=true danko/docker-react npm run test
+
+      # Other steps and commands related to your CI/CD process
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
