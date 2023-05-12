@@ -1,10 +1,17 @@
-sudo: required
-services:
-  - docker
-
-
-before_install:
-  - docker build -t danko/docker-react -f Dockerfile.dev . 
-
-script:
-  - docker run danko/docker-react npm run test -- --coverage
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.7
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t danko/docker-react -f Dockerfile.dev .
+      - run:
+          name: Run Tests
+          command: |
+            docker run danko/docker-react npm run test -- --coverage
