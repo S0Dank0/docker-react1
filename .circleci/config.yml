@@ -1,12 +1,10 @@
-version: 2.1
+vversion: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:14.17-browsers
+      - image: circleci/node:16-browsers
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.7
       - run:
           name: Install Docker
           command: |
@@ -23,4 +21,4 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker run -e CI=true danko/docker-react npm run test
+            docker run danko/docker-react npm run test -- --coverage
