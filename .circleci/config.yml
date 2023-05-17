@@ -15,12 +15,14 @@ jobs:
           name: Run Tests
           command: |
             docker run -e CI=true danko/docker-react npm run test
+     
+     
       - run:
-           name: Install AWS CLI
-            command: |
-             curl "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-              unzip awscliv2.zip
-              sudo ./aws/install
+          name: Install AWS CLI
+          command: |
+            curl "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
               
 
       - deploy:
