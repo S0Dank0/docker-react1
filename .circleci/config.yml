@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:14
+      - image: docker:stable
     steps:
       - checkout
       - setup_remote_docker:
@@ -14,22 +14,17 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            docker run -e CI=true danko/docker-react npm run test
-     
-     
+            docker run danko/docker-react npm run test -- --coverage
+  deploy:
+    docker:
+      - image: amazon/aws-cli:latest
+    steps:
+      - checkout
       - run:
-          name: Install AWS CLI
-          command: |
-            curl "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
-              
-
-      - deploy:
           name: Deploy to AWS Elastic Beanstalk
           command: |
-            aws configure set aws_access_key_id YOUR_ACCESS_KEY
-            aws configure set aws_secret_access_key YOUR_SECRET_ACCESS_KEY
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
             aws configure set default.region us-east-1
-            aws elasticbeanstalk create-application-version --application-name YOUR_APPLICATION_NAME --version-label YOUR_VERSION_LABEL --source-bundle S3Bucket=elasticbeanstalk-us-east-1-284204458350,S3Key=YOUR_FILE_NAME
-            aws elasticbeanstalk update-environment --environment-name docker-react --version-label YOUR_VERSION_LABEL
+            aws elasticbeanstalk create-application-version --application-name docker --version-label $CIRCLE_SHA1 --source-bundle S3Bucket=elasticbeanstalk-us-east-1-284204458350,S3Key=docker-react/$CIRCLE_SHA1.zip
+            aws elasticbeanstalk update-environment --environment-name Docker-react-env --version-label $CIRCLE_SHA1
