@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            docker run danko/docker-react npm run test -- --coverage
+            docker run -e CI=true danko/docker-react npm run test
   deploy:
     docker:
       - image: amazon/aws-cli:latest
