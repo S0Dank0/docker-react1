@@ -23,8 +23,6 @@ jobs:
       - run:
           name: Deploy to AWS Elastic Beanstalk
           command: |
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY
-            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
             aws configure set default.region us-east-1
             aws elasticbeanstalk create-application-version --application-name docker --version-label $CIRCLE_SHA1 --source-bundle S3Bucket=elasticbeanstalk-us-east-1-284204458350,S3Key=docker-react/$CIRCLE_SHA1.zip
             aws elasticbeanstalk update-environment --environment-name Docker-react-env --version-label $CIRCLE_SHA1
