@@ -1,7 +1,3 @@
-Ето коригираният YML файл за CircleCI конфигурация:
-
-yaml
-
 version: 2.1
 jobs:
   build:
