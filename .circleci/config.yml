@@ -1,3 +1,7 @@
+Ето коригираният YML файл за CircleCI конфигурация:
+
+yaml
+
 version: 2.1
 jobs:
   build:
@@ -15,6 +19,7 @@ jobs:
           name: Run Tests
           command: |
             docker run -e CI=true danko/docker-react npm run test
+
   deploy:
     docker:
       - image: amazon/aws-cli:latest
@@ -23,9 +28,8 @@ jobs:
       - run:
           name: Deploy to AWS Elastic Beanstalk
           command: |
-            aws configure set default.region us-east-1
-            aws elasticbeanstalk create-application-version --application-name docker --version-label $CIRCLE_SHA1 --source-bundle S3Bucket=elasticbeanstalk-us-east-1-284204458350,S3Key=docker-react/$CIRCLE_SHA1.zip
-            aws elasticbeanstalk update-environment --environment-name Docker-react-env --version-label $CIRCLE_SHA1
+            aws elasticbeanstalk create-application-version --application-name docker --version-label $CIRCLE_SHA1 --source-bundle S3Bucket=$BUCKET_NAME,S3Key=$BUCKET_PATH/$CIRCLE_SHA1.zip
+            aws elasticbeanstalk update-environment --application-name docker --environment-name Docker-env --version-label $CIRCLE_SHA1
             access_key_id: $AWS_ACCESS_KEY
             secret_access_key:
               secure: "AWS_SECRET_KEY"
