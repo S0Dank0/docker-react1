@@ -18,6 +18,7 @@ jobs:
             docker run -e CI=true danko/docker-react npm run test
 
   deploy:
+    executor: docker
     steps:
       - checkout
       - run:
