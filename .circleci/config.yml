@@ -17,8 +17,6 @@ jobs:
             docker run -e CI=true danko/docker-react npm run test
 
   deploy:
-    docker:
-      - image: amazon/aws-cli:latest
     steps:
       - checkout
       - run:
