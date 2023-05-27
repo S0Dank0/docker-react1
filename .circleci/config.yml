@@ -1,4 +1,5 @@
 version: 2.1
+
 jobs:
   build:
     docker:
@@ -24,9 +25,6 @@ jobs:
           command: |
             aws elasticbeanstalk create-application-version --application-name docker --version-label $CIRCLE_SHA1 --source-bundle S3Bucket=$BUCKET_NAME,S3Key=$BUCKET_PATH/$CIRCLE_SHA1.zip
             aws elasticbeanstalk update-environment --application-name docker --environment-name Docker-env --version-label $CIRCLE_SHA1
-            access_key_id: $AWS_ACCESS_KEY
-            secret_access_key:
-              secure: "AWS_SECRET_KEY"
     
     environment:
       BUCKET_NAME: "Docker-react-env.eba-ppinm2wi.us-east-1.elasticbeanstalk.com"
